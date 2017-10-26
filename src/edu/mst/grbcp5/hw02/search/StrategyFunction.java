@@ -12,4 +12,8 @@ public abstract class StrategyFunction {
     return this.type;
   }
 
+  public abstract String toString();
+
+  public abstract boolean equals( Object o );
+
 }
