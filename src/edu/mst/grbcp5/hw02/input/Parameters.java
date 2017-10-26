@@ -12,6 +12,17 @@ public class Parameters {
     this.parameters = parameters;
   }
 
+  public void require( String[] requiredParameters ) throws NullPointerException {
+
+    String dummy;
+
+    for ( String param : requiredParameters ) {
+      /* Throws a null pointer exception if param is not found */
+      dummy = this.parameters.get( param ).toString();
+    }
+
+  }
+
   public String getString( String parameterIdentifier ) {
     return ( String ) ( this.parameters.get( parameterIdentifier ) );
   }
