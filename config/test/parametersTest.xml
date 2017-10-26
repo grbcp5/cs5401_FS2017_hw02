@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<config>
+
+    <theInteger dataType="Integer">1</theInteger>
+    <theDouble dataType="Double">1.0</theDouble>
+    <theBoolean dataType="Boolean">true</theBoolean>
+    <theLong dataType="Long">10021996</theLong>
+    <theString dataType="String">theExpectedStringsValue</theString>
+    <theList dataType="List">
+        <listItem1>theFirstListItem</listItem1>
+        <listItem2>theSecondListItem</listItem2>
+    </theList>
+
+</config>
