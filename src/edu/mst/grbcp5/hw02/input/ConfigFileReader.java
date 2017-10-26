@@ -55,7 +55,7 @@ public class ConfigFileReader {
     List< String > result = new LinkedList<>();
     String trimmedString;
 
-    for ( int i = 0; i < list.getLength(); i++ ) {
+    for ( int i = list.getLength() - 1; i >= 0; i-- ) {
       trimmedString = list.item( i ).getTextContent().trim();
       if ( trimmedString.length() > 0 ) {
         result.add( 0, trimmedString );
