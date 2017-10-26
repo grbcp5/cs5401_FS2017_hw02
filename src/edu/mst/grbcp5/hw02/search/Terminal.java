@@ -1,6 +1,5 @@
 package edu.mst.grbcp5.hw02.search;
 
-import edu.mst.grbcp5.hw02.search.random.StrategyFunctionType;
 import sun.management.Agent;
 
 public class Terminal extends StrategyFunction {

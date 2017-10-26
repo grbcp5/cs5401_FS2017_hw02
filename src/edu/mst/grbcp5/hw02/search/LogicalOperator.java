@@ -1,7 +1,5 @@
 package edu.mst.grbcp5.hw02.search;
 
-import edu.mst.grbcp5.hw02.search.random.StrategyFunctionType;
-
 public class LogicalOperator extends StrategyFunction {
 
   private LogicalOperators operator;

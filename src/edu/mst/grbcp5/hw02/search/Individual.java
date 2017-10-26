@@ -2,7 +2,7 @@ package edu.mst.grbcp5.hw02.search;
 
 import edu.mst.grbcp5.hw02.tree.Tree;
 
-public class Individual< T > {
+public abstract class Individual< T > {
 
   protected Tree< T > strategy;
 
