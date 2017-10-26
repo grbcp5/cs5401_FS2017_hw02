@@ -1,7 +1,5 @@
 package edu.mst.grbcp5.hw02.search;
 
-import sun.management.Agent;
-
 public class Terminal extends StrategyFunction {
 
   private Agent agent;
