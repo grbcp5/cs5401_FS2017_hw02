@@ -2,19 +2,19 @@ package edu.mst.grbcp5.hw02.search;
 
 public class LogicalOperator extends StrategyFunction {
 
-  private LogicalOperators operator;
+  private Operator operator;
 
-  public LogicalOperator( LogicalOperators op ) {
+  public LogicalOperator( Operator op ) {
     super( StrategyFunctionType.LOGICAL_OPERATOR );
 
     this.operator = op;
   }
 
-  public LogicalOperators getOperator() {
+  public Operator getOperator() {
     return operator;
   }
 
-  public void setOperator( LogicalOperators operator ) {
+  public void setOperator( Operator operator ) {
     this.operator = operator;
   }
 }
