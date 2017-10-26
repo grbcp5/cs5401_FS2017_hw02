@@ -1,5 +1,6 @@
 package edu.mst.grbcp5.hw02.input;
 
+import edu.mst.grbcp5.hw02.Main;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -84,7 +85,7 @@ public class ConfigFileReader {
       required = new String[ 0 ];
     }
 
-    List req = Arrays.asList( required );
+    List req = new LinkedList( Arrays.asList( required ) );
     StringBuilder sb;
 
     /* For each child of the root node */
@@ -98,7 +99,14 @@ public class ConfigFileReader {
         Object value;
 
         /* Indicate that the requested tag was found */
-        req.remove( element.getTagName() );
+        try {
+          req.remove( element.getTagName() );
+        } catch ( Exception e ) {
+          if ( Main.DEBUG ) {
+            System.out.println( "-- Error for " + element.getTagName() );
+            e.printStackTrace();
+          }
+        }
 
         switch ( nodeType ) {
           case "Integer":
