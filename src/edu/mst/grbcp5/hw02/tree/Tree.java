@@ -42,5 +42,14 @@ public class Tree< T > {
     return this.getRoot().getHeight();
   }
 
+
+  public String toString() {
+    if( this.getRoot() == null ) {
+      return "null";
+    }
+
+    return this.getRoot().toString();
+  }
+
 }
 

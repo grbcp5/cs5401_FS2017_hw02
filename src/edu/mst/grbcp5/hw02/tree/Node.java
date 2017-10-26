@@ -59,4 +59,18 @@ public class Node< T > {
     return height + 1;
   }
 
+  public String toString() {
+    return stringBuilderToString( new StringBuilder() );
+  }
+
+  private String stringBuilderToString( StringBuilder sb ) {
+    sb.append( this.getData().toString() );
+
+    for ( int i = 0; i < this.getChildren().size(); i++ ) {
+      this.getChildren().get( i ).stringBuilderToString( sb );
+    }
+
+    return sb.toString();
+  }
+
 }
