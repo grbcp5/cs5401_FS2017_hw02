@@ -49,4 +49,14 @@ public class Node< T > {
     }
   }
 
+  public int getHeight() {
+    int height = -1;
+
+    for ( Node< T > child : this.getChildren() ) {
+      height = Math.max( height, child.getHeight() );
+    }
+
+    return height + 1;
+  }
+
 }

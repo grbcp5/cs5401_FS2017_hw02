@@ -33,5 +33,14 @@ public class Tree< T > {
     this.getRoot().preorderTraversal( tnp );
   }
 
+  public int getHeight() {
+
+    if( this.getRoot() == null ) {
+      return -1;
+    }
+
+    return this.getRoot().getHeight();
+  }
+
 }
 
