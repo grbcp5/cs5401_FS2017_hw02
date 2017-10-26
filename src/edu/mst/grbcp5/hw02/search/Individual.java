@@ -1,22 +1,21 @@
 package edu.mst.grbcp5.hw02.search;
 
-import edu.mst.grbcp5.hw02.tree.Node;
 import edu.mst.grbcp5.hw02.tree.Tree;
 
 public class Individual< T > {
 
-  protected Tree< T > tree;
+  protected Tree< T > strategy;
 
   public Individual() {
-    tree = new Tree< T >();
+    this.strategy = new Tree< T >();
   }
 
-  public Individual( Tree< T > tree ) {
-    this.tree = new Tree< T >( tree );
+  public Individual( Tree< T > strategy ) {
+    this.strategy = new Tree< T >( strategy );
   }
 
-  public Tree< T > getTree() {
-    return tree;
+  public Tree< T > getStrategy() {
+    return this.strategy;
   }
 
 }
