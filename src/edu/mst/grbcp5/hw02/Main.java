@@ -13,6 +13,9 @@ public class Main {
   public static Random getRandomInstance() {
     return rnd;
   }
+  public static void setRandomInstance( Random rnd ) {
+    Main.rnd = rnd;
+  }
 
   public static void main( String[] args ) {
     System.out.println( "Hello, world" );
