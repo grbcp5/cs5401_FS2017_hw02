@@ -41,4 +41,12 @@ public class Node< T > {
     return children;
   }
 
+  public void preorderTraversal( TreeNodeProcessor<T> tnp ) {
+
+    tnp.process( this.getData() );
+    for( int i = 0; i < this.getChildren().size(); i++ ) {
+      this.getChildren().get( i ).preorderTraversal( tnp );
+    }
+  }
+
 }

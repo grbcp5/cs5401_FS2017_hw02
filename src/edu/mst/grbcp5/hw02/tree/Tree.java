@@ -24,5 +24,14 @@ public class Tree< T > {
     return root;
   }
 
+  public void preorderTraversal( TreeNodeProcessor<T> tnp ) {
+
+    if( this.getRoot() == null ) {
+      return;
+    }
+
+    this.getRoot().preorderTraversal( tnp );
+  }
+
 }
 
