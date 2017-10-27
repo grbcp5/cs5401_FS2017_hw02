@@ -12,4 +12,10 @@ public class Prisoner extends Individual {
     super( t );
   }
 
+  @Override
+  public Tree<StrategyFunction> getStrategy() {
+    return super.getStrategy();
+  }
+
+
 }
