@@ -1,4 +1,4 @@
-package edu.mst.grbcp5.hw02.search.Ranom;
+package edu.mst.grbcp5.hw02.search.random;
 
 import edu.mst.grbcp5.hw02.input.Parameters;
 import edu.mst.grbcp5.hw02.search.Individual;
