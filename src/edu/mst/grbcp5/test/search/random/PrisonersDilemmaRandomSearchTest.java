@@ -32,8 +32,9 @@ public class PrisonersDilemmaRandomSearchTest {
     Map< String, Object > p;
 
     p = new HashMap<>();
-    p.put( "maxTreeDepth", 10 );
-    p.put( "memoryDepth", 5 );
+    p.put( Param.MAX_TREE_DEPTH.identifier(), 10 );
+    p.put( Param.MEMORY_DEPTH.identifier(), 5 );
+    p.put( Param.DEPTH_PROPORTIONAL_INIT.identifier(), false );
     this.parameters = new Parameters( p );
     this.fut = new PrisonersDilemmaRandomSearch( parameters );
 

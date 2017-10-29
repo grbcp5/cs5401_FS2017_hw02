@@ -8,7 +8,10 @@ public enum Param {
   RANDOM_SEED( "randomSeed" ),
   NUM_RUNS( "numRuns" ),
   LOG_FILE( "logFilePath" ),
-  SOL_FILE( "solFilePath" );
+  SOL_FILE( "solFilePath" ),
+
+  /* Non-required parameters */
+  DEPTH_PROPORTIONAL_INIT( "depthProportionalInit" );
 
   private final String identifier;
 

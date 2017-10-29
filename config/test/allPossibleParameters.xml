@@ -28,6 +28,7 @@
     <!--
       2a Algorithm parameters
     -->
+    <depthProportionalInit dataType="Bool">true</depthProportionalInit>
 
 
 </config>

@@ -66,10 +66,25 @@ public class PrisonersDilemmaRandomSearch extends RandomSearch {
     result = new Node<>();
     rndAssist = new GRandom<>();
 
-    /* Generate random type based on current level ( See footnote ) */
-    chanceOfTerminal = ( thisNodesLevel == 0 ) ?
-      ( 0.5 ) * step :
-      thisNodesLevel * step;
+    if (
+      parameters.getBoolean( Param.DEPTH_PROPORTIONAL_INIT, true )
+      ) {
+      /* Generate random type based on current level ( See footnote ) */
+      chanceOfTerminal = ( thisNodesLevel == 0 ) ?
+        ( 0.5 ) * step :
+        thisNodesLevel * step;
+
+    } else {
+      /* Generate random type with equal chance of terminal or non-terminal */
+      if (
+        thisNodesLevel == this.parameters.getInteger( Param.MAX_TREE_DEPTH )
+        ) {
+        chanceOfTerminal = 1;
+      } else {
+        chanceOfTerminal = 0.5;
+      }
+    }
+
     randType = rndAssist.getRndXorY(
       StrategyFunctionType.TERMINAL,
       StrategyFunctionType.LOGICAL_OPERATOR,
