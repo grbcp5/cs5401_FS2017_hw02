@@ -57,7 +57,6 @@ public class PrisonersDilemmaRandomSearch extends RandomSearch {
     /* Local Variables */
     StrategyFunctionType randType;
     Node< StrategyFunction > result;
-    Random rnd;
     LogicalOperator op;
     GRandom< StrategyFunctionType > rndAssist;
     double chanceOfTerminal;
