@@ -18,7 +18,7 @@ import static org.junit.Assert.*;
 
 public class PrisonersDilemmaRandomSearchTest {
 
-  public static final int NUM_TEST_CASES = 1000;
+  public static final int NUM_TEST_CASES = 10000;
 
   private PrisonersDilemmaRandomSearch fut; // file under test
   private Parameters parameters;
@@ -31,7 +31,7 @@ public class PrisonersDilemmaRandomSearchTest {
     Map< String, Object > p;
 
     p = new HashMap<>();
-    p.put( "maxTreeDepth", 5 );
+    p.put( "maxTreeDepth", 10 );
     p.put( "memoryDepth", 5 );
     this.parameters = new Parameters( p );
     this.fut = new PrisonersDilemmaRandomSearch( parameters );
@@ -44,18 +44,33 @@ public class PrisonersDilemmaRandomSearchTest {
     Prisoner p;
     Tree< StrategyFunction > t;
     Node< StrategyFunction > n;
+    int maxTreeDepth;
+    int height;
+    int heights[];
+
+    maxTreeDepth = this.parameters.getInteger( "maxTreeDepth" );
+    heights = new int[ maxTreeDepth + 1 ];
 
     for ( int i = 0; i < NUM_TEST_CASES; i++ ) {
       p = ( Prisoner ) fut.getRandomIndividual();
       t = p.getStrategy();
       n = t.getRoot();
 
-      assertTrue( t.getHeight()
-        <= this.parameters.getInteger( "maxTreeDepth" ) );
+      height = t.getHeight();
+      assertTrue( height <= maxTreeDepth );
       this.testNode( n );
-
       System.out.println( "Tree passed: " + t );
 
+      heights[ height ]++;
+
+    }
+
+    System.out.println( "\nHeights: " );
+    for ( int i = 0; i < maxTreeDepth + 1; i++ ) {
+      System.out.println( "Height " + i + ": " + heights[ i ] +
+                            " (" +
+                            ( ( double ) heights[ i ] ) / NUM_TEST_CASES +
+                            ")" );
     }
 
   }
