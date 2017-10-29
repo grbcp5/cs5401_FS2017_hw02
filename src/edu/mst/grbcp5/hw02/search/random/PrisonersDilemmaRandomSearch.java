@@ -1,7 +1,6 @@
 package edu.mst.grbcp5.hw02.search.random;
 
 import edu.mst.grbcp5.hw02.GRandom;
-import edu.mst.grbcp5.hw02.Main;
 import edu.mst.grbcp5.hw02.input.Parameters;
 import edu.mst.grbcp5.hw02.search.*;
 import edu.mst.grbcp5.hw02.tree.Node;
@@ -25,57 +24,60 @@ public class PrisonersDilemmaRandomSearch extends RandomSearch {
   public Individual getRandomIndividual() {
     Prisoner p;
 
+    /* Create a random prisoner */
     p = new Prisoner( createRandomTree() );
 
     return p;
   }
 
   private Tree< StrategyFunction > createRandomTree() {
+
+    /* Local variables */
     Tree< StrategyFunction > result;
     Node< StrategyFunction > node;
     int d = this.parameters.getInteger( "maxTreeDepth" );
     double step;
 
+    /* Initialize */
     result = new Tree<>();
-
     step = 1 / ( ( double ) d );
 
-    node = getRandomNode( 0, step );
-    result.getRoot().setData( node.getData() );
+    /* Create a random tree */
+    node = getRandomNode( 0, step ); // get a random node
+    result.getRoot().setData( node.getData() ); // set rand node's data to root
     for ( Node< StrategyFunction > child : node.getChildren() ) {
-      result.getRoot().getChildren().add( child );
-    }
+      result.getRoot().getChildren().add( child ); // add rand node's children
+    }                                              // to root
 
     return result;
   }
 
   private Node< StrategyFunction > getRandomNode( int thisNodesLevel,
                                                   double step ) {
-
     /* Local Variables */
     StrategyFunctionType randType;
     Node< StrategyFunction > result;
     Random rnd;
     LogicalOperator op;
-    GRandom<StrategyFunctionType> rndAssist;
+    GRandom< StrategyFunctionType > rndAssist;
+    double chanceOfTerminal;
 
     /* Initialize */
     result = new Node<>();
     rndAssist = new GRandom<>();
 
-    if ( thisNodesLevel >= this.parameters.getInteger( "maxTreeDepth" ) ) {
-      result = result;
-    }
-
-    /* Generate random type based on current level ( See footnote )*/
+    /* Generate random type based on current level ( See footnote ) */
+    chanceOfTerminal = ( thisNodesLevel == 0 ) ?
+      ( 0.5 ) * step :
+      thisNodesLevel * step;
     randType = rndAssist.getRndXorY(
       StrategyFunctionType.TERMINAL,
       StrategyFunctionType.LOGICAL_OPERATOR,
-      thisNodesLevel * step + ( 0.5 ) * step
+      chanceOfTerminal
     );
 
     /* If terminal */
-    if( randType == StrategyFunctionType.TERMINAL ) {
+    if ( randType == StrategyFunctionType.TERMINAL ) {
 
       result.getChildren().clear();
       result.setData( generateRandomTerminal() );
@@ -90,7 +92,7 @@ public class PrisonersDilemmaRandomSearch extends RandomSearch {
         case AND:
         case OR:
         case XOR:
-        /* Add two children for binary operators */
+          /* Add two children for binary operators */
           result.getChildren().add(
             getRandomNode( thisNodesLevel + 1, step )
           );
@@ -99,7 +101,7 @@ public class PrisonersDilemmaRandomSearch extends RandomSearch {
           );
           break;
         case NOT:
-        /* Add one child for unary operator */
+          /* Add one child for unary operator */
           result.getChildren().add(
             getRandomNode( thisNodesLevel + 1, step )
           );
@@ -148,6 +150,9 @@ public class PrisonersDilemmaRandomSearch extends RandomSearch {
 
 
 /*
- * Footnote: TODO
- *
+ * Footnote: To increase the likelihood of creating larger trees, the
+ * probability of creating a terminal node is proportional to the current
+ * level of the tree. This is done such that there is a linear increase in
+ * probability of producing a terminal node up to the largest allowed depth
+ * at which there is a 100% chance of producing a terminal.
  */
