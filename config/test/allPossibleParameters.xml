@@ -18,6 +18,7 @@
     <memoryDepth dataType="Integer">2</memoryDepth>
     <maxTreeDepth dataType="Integer">3</maxTreeDepth>
     <shouldSeedRandom dataType="Boolean">true</shouldSeedRandom>
+    <randomSeed dataType="Long">10021996</randomSeed>
 
     <!-- Experiment configuration -->
     <numRuns dataType="Integer">1</numRuns>

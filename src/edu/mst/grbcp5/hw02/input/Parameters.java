@@ -10,66 +10,66 @@ public class Parameters {
     this.parameters = parameters;
   }
 
-  public void require( String[] requiredParameters ) throws
+  public void require( Param[] requiredParameters ) throws
     NullPointerException {
 
     String dummy;
 
-    for ( String param : requiredParameters ) {
+    for ( Param param : requiredParameters ) {
       /* Throws a null pointer exception if param is not found */
-      dummy = this.parameters.get( param ).toString();
+      dummy = this.parameters.get( param.identifier() ).toString();
     }
 
   }
 
-  public String getString( String parameterIdentifier ) {
-    return ( String ) ( this.parameters.get( parameterIdentifier ) );
+  public String getString( Param p ) {
+    return ( String ) ( this.parameters.get( p.identifier() ) );
   }
 
-  public String getString( String parameterIdentifier, String defaultValue ) {
-    String param = ( String ) ( this.parameters.get( parameterIdentifier ) );
+  public String getString( Param p, String defaultValue ) {
+    String param = ( String ) ( this.parameters.get( p.identifier() ) );
     return ( param == null ) ? defaultValue : param;
   }
 
-  public Double getDouble( String parameterIdentifier ) {
-    return ( Double ) ( this.parameters.get( parameterIdentifier ) );
+  public Double getDouble( Param p ) {
+    return ( Double ) ( this.parameters.get( p.identifier() ) );
   }
 
-  public double getDouble( String parameterIdentifier, double defaultValue ) {
-    Double param = ( Double ) ( this.parameters.get( parameterIdentifier ) );
+  public double getDouble( Param p, double defaultValue ) {
+    Double param = ( Double ) ( this.parameters.get( p.identifier() ) );
     return ( param == null ) ? defaultValue : param;
   }
 
-  public Integer getInteger( String parameterIdentifier ) {
-    return ( Integer ) ( this.parameters.get( parameterIdentifier ) );
+  public Integer getInteger( Param p ) {
+    return ( Integer ) ( this.parameters.get( p.identifier() ) );
   }
 
-  public Integer getInteger( String parameterIdentifier, int defaultValue ) {
-    Integer param = ( Integer ) ( this.parameters.get( parameterIdentifier ) );
+  public Integer getInteger( Param p, int defaultValue ) {
+    Integer param = ( Integer ) ( this.parameters.get( p.identifier() ) );
     return ( param == null ) ? defaultValue : param;
   }
 
-  public Boolean getBoolean( String parameterIdentifier ) {
-    return ( Boolean ) ( this.parameters.get( parameterIdentifier ) );
+  public Boolean getBoolean( Param p ) {
+    return ( Boolean ) ( this.parameters.get( p.identifier() ) );
   }
 
-  public Boolean getBoolean( String parameterIdentifier,
+  public Boolean getBoolean( Param p,
                              boolean defaultValue ) {
-    Boolean param = ( Boolean ) ( this.parameters.get( parameterIdentifier ) );
+    Boolean param = ( Boolean ) ( this.parameters.get( p.identifier() ) );
     return ( param == null ) ? defaultValue : param;
   }
 
-  public Long getLong( String parameterIdentifier ) {
-    return ( Long ) ( this.parameters.get( parameterIdentifier ) );
+  public Long getLong( Param p ) {
+    return ( Long ) ( this.parameters.get( p.identifier() ) );
   }
 
-  public Long getLong( String parameterIdentifier, long defaultValue ) {
-    Long param = ( Long ) ( this.parameters.get( parameterIdentifier ) );
+  public Long getLong( Param p, long defaultValue ) {
+    Long param = ( Long ) ( this.parameters.get( p.identifier() ) );
     return ( param == null ) ? defaultValue : param;
   }
 
-  public String[] getList( String parameterIdentifier ) {
-    return ( String[] ) ( this.parameters.get( parameterIdentifier ) );
+  public String[] getList( Param p ) {
+    return ( String[] ) ( this.parameters.get( p.identifier() ) );
   }
 
 }

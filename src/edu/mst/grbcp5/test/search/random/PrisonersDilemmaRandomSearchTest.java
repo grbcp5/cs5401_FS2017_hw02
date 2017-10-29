@@ -1,7 +1,7 @@
 package edu.mst.grbcp5.test.search.random;
 
 import edu.mst.grbcp5.hw02.GRandom;
-import edu.mst.grbcp5.hw02.Main;
+import edu.mst.grbcp5.hw02.input.Param;
 import edu.mst.grbcp5.hw02.input.Parameters;
 import edu.mst.grbcp5.hw02.search.*;
 import edu.mst.grbcp5.hw02.search.random.PrisonersDilemmaRandomSearch;
@@ -14,7 +14,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 public class PrisonersDilemmaRandomSearchTest {
 
@@ -48,7 +49,7 @@ public class PrisonersDilemmaRandomSearchTest {
     int height;
     int heights[];
 
-    maxTreeDepth = this.parameters.getInteger( "maxTreeDepth" );
+    maxTreeDepth = this.parameters.getInteger( Param.MAX_TREE_DEPTH );
     heights = new int[ maxTreeDepth + 1 ];
 
     for ( int i = 0; i < NUM_TEST_CASES; i++ ) {
@@ -104,7 +105,7 @@ public class PrisonersDilemmaRandomSearchTest {
 
         /* Assert memory reference isn't greater than memory depth */
         assertTrue( terminal.getTime()
-          < this.parameters.getInteger( "memoryDepth" ) );
+                      < this.parameters.getInteger( Param.MEMORY_DEPTH ) );
         assertTrue( n.getChildren().isEmpty() );
         break;
     }

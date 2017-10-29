@@ -1,6 +1,7 @@
 package edu.mst.grbcp5.hw02.search.random;
 
 import edu.mst.grbcp5.hw02.GRandom;
+import edu.mst.grbcp5.hw02.input.Param;
 import edu.mst.grbcp5.hw02.input.Parameters;
 import edu.mst.grbcp5.hw02.search.*;
 import edu.mst.grbcp5.hw02.tree.Node;
@@ -13,9 +14,9 @@ public class PrisonersDilemmaRandomSearch extends RandomSearch {
   public PrisonersDilemmaRandomSearch( Parameters p ) {
     super( p );
 
-    this.parameters.require( new String[]{
-      "maxTreeDepth",
-      "memoryDepth"
+    this.parameters.require( new Param[]{
+      Param.MAX_TREE_DEPTH,
+      Param.MEMORY_DEPTH
     } );
 
   }
@@ -35,7 +36,7 @@ public class PrisonersDilemmaRandomSearch extends RandomSearch {
     /* Local variables */
     Tree< StrategyFunction > result;
     Node< StrategyFunction > node;
-    int d = this.parameters.getInteger( "maxTreeDepth" );
+    int d = this.parameters.getInteger( Param.MAX_TREE_DEPTH );
     double step;
 
     /* Initialize */
@@ -124,7 +125,7 @@ public class PrisonersDilemmaRandomSearch extends RandomSearch {
     rnd = GRandom.getInstance();
     rndAssist = new GRandom<>();
     int rndDepth;
-    k = this.parameters.getInteger( "memoryDepth" );
+    k = this.parameters.getInteger( Param.MEMORY_DEPTH );
 
     /* Create a new random terminal */
     rndAgent = rndAssist.getRndXorY(
