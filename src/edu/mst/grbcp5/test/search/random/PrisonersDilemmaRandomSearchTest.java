@@ -36,7 +36,7 @@ public class PrisonersDilemmaRandomSearchTest {
     p.put( Param.MEMORY_DEPTH.identifier(), 5 );
     p.put( Param.DEPTH_PROPORTIONAL_INIT.identifier(), false );
     this.parameters = new Parameters( p );
-    this.fut = new PrisonersDilemmaRandomSearch( parameters );
+    this.fut = new PrisonersDilemmaRandomSearch( parameters, null );
 
   }
 

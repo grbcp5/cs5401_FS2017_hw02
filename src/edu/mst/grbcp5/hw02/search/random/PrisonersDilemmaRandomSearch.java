@@ -11,8 +11,10 @@ import java.util.Random;
 
 public class PrisonersDilemmaRandomSearch extends RandomSearch {
 
-  public PrisonersDilemmaRandomSearch( Parameters p ) {
-    super( p );
+  public PrisonersDilemmaRandomSearch(
+    Parameters p,
+    PrisonersDilemmaRandomSearchDelegate delegate ) {
+    super( p, delegate );
 
     this.parameters.require( new Param[]{
       Param.MAX_TREE_DEPTH,
