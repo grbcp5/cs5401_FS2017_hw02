@@ -1,4 +1,4 @@
-package edu.mst.grbcp5.hw02.search;
+package edu.mst.grbcp5.hw02.search.IteratedPrisonerDilemma;
 
 public abstract class StrategyFunction {
 

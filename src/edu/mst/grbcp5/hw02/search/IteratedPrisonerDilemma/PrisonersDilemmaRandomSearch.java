@@ -1,9 +1,10 @@
-package edu.mst.grbcp5.hw02.search.random;
+package edu.mst.grbcp5.hw02.search.IteratedPrisonerDilemma;
 
 import edu.mst.grbcp5.hw02.GRandom;
 import edu.mst.grbcp5.hw02.input.Param;
 import edu.mst.grbcp5.hw02.input.Parameters;
-import edu.mst.grbcp5.hw02.search.*;
+import edu.mst.grbcp5.hw02.search.Individual;
+import edu.mst.grbcp5.hw02.search.random.RandomSearch;
 import edu.mst.grbcp5.hw02.tree.Node;
 import edu.mst.grbcp5.hw02.tree.Tree;
 
@@ -22,6 +23,7 @@ public class PrisonersDilemmaRandomSearch extends RandomSearch {
     } );
 
   }
+
 
   @Override
   public Individual getRandomIndividual() {

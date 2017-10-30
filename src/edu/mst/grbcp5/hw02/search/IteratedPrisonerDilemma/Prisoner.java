@@ -1,5 +1,6 @@
-package edu.mst.grbcp5.hw02.search;
+package edu.mst.grbcp5.hw02.search.IteratedPrisonerDilemma;
 
+import edu.mst.grbcp5.hw02.search.Individual;
 import edu.mst.grbcp5.hw02.tree.Tree;
 
 public class Prisoner extends Individual {
@@ -17,5 +18,8 @@ public class Prisoner extends Individual {
     return super.getStrategy();
   }
 
-
+  @Override
+  public String toString() {
+    return this.strategy.toString();
+  }
 }
