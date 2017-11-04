@@ -6,6 +6,7 @@
     -->
 
     <!-- Game configuration -->
+    <searchType dataType="String">Random</searchType>
     <iterations dataType="Integer">20</iterations>
     <memoryDepth dataType="Integer">5</memoryDepth>
     <maxTreeDepth dataType="Integer">5</maxTreeDepth>
