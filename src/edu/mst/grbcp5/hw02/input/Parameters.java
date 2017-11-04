@@ -10,6 +10,10 @@ public class Parameters {
     this.parameters = parameters;
   }
 
+  public void put( Param param, Object value ) {
+    parameters.put( param.identifier(), value );
+  }
+
   public void require( Param[] requiredParameters ) throws
     NullPointerException {
 

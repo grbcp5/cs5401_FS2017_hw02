@@ -22,6 +22,7 @@ public class Main {
     PrisonersDilemmaRandomSearchDelegate delegate;
     RandomSearch searcher;
     String searchType;
+    int numRuns;
 
     /* Check for program arguments */
     if ( args.length != 1 ) {
@@ -33,27 +34,34 @@ public class Main {
     configFilePath = args[ 0 ];
     parameters = getParameters( configFilePath );
 
-    /* Seed random number generator based on parameters */
-    seedRandomNumberGenerator( parameters );
+    numRuns = parameters.getInteger( Param.NUM_RUNS );
+    for ( int r = 0; r < numRuns; r++ ) {
 
-    /* Check search type */
-    searchType = parameters.getString( Param.SEARCH_TYPE );
-    if ( !searchType.toLowerCase().equals( "random" ) ) {
+      parameters.put( Param.CURRENT_RUN, r + 1 );
 
-      /* Only support random search */
-      throw new Exception( "Only random search supported" );
+      /* Seed random number generator based on parameters */
+      seedRandomNumberGenerator( parameters );
+
+      /* Check search type */
+      searchType = parameters.getString( Param.SEARCH_TYPE );
+      if ( !searchType.toLowerCase().equals( "random" ) ) {
+
+        /* Only support random search */
+        throw new Exception( "Only random search supported" );
+
+      }
+
+      delegate = new PrisonersDilemmaRandomSearchDelegate( parameters );
+      searcher = new PrisonersDilemmaRandomSearch( delegate );
+
+      searcher.getRandomIndividuals( 10000 );
+      Individual i = delegate.getCurrentBest();
+
+      System.out.println( "\nBest individual: " );
+      System.out.println( "\tPreorder: " + i );
+      System.out.println( "\tFitness: " + i.getFitness() );
 
     }
-
-    delegate = new PrisonersDilemmaRandomSearchDelegate( parameters );
-    searcher = new PrisonersDilemmaRandomSearch( delegate );
-
-    searcher.getRandomIndividuals( 10000 );
-    Individual i = delegate.getCurrentBest();
-
-    System.out.println( "Best individual: " );
-    System.out.println( "\tPreorder: " + i );
-    System.out.println( "\tFitness: " + i.getFitness() );
 
   }
 

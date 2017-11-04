@@ -7,6 +7,7 @@ public enum Param {
   SHOULD_SEED_RANDOM( "shouldSeedRandom" ),
   RANDOM_SEED( "randomSeed" ),
   NUM_RUNS( "numRuns" ),
+  CURRENT_RUN( "currentRun" ),
   LOG_FILE( "logFilePath" ),
   SOL_FILE( "solFilePath" ),
   SEARCH_TYPE( "searchType" ),

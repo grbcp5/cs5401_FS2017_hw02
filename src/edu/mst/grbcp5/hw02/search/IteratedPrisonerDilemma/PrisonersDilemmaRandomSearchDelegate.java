@@ -51,18 +51,39 @@ public class PrisonersDilemmaRandomSearchDelegate extends RandomSearchDelegate {
   }
 
   @Override
-  public void handleNewIndividual( Individual i ) {
+  public void handleNewIndividual( Individual ind ) {
+
+    int numIndividuals;
+    int numProgressBarSteps;
+    int progressBarStepSize;
+    int stepsCompleted;
+    int curRun;
 
     individualsRecieved++;
+    ind.setFitness( this.fitness( ind, this.titForTat, this.environment ) );
 
-    i.setFitness( this.fitness( i, this.titForTat, this.environment ) );
+    numIndividuals = parameters.getInteger( Param.NUM_INDIVIDUALS );
+    numProgressBarSteps = 20;
+    progressBarStepSize = numIndividuals / numProgressBarSteps;
 
-    System.out.println( "Individual " + individualsRecieved +
-                          ": " + i.getFitness() );
+    if ( individualsRecieved % progressBarStepSize == 0 ) {
 
-    if ( currentBest == null || i.getFitness() > currentBest.getFitness() ) {
-      System.out.println( "Found new best ^" );
-      currentBest = i;
+      stepsCompleted = ( individualsRecieved / progressBarStepSize );
+      curRun = parameters.getInteger( Param.CURRENT_RUN );
+
+      System.out.print( "\rRun " + curRun + ": [" );
+      for ( int i = 0; i < stepsCompleted; i++ ) {
+        System.out.print( "=" );
+      }
+      for ( int i = 0; i < numProgressBarSteps - stepsCompleted; i++ ) {
+        System.out.print( " " );
+      }
+      System.out.print( "]" );
+
+    }
+
+    if ( currentBest == null || ind.getFitness() > currentBest.getFitness() ) {
+      currentBest = ind;
     }
 
   }
