@@ -14,6 +14,7 @@
     -->
 
     <!-- Game configuration -->
+    <searchType dataType="String">Random</searchType>
     <iterations dataType="Integer">1</iterations>
     <memoryDepth dataType="Integer">2</memoryDepth>
     <maxTreeDepth dataType="Integer">3</maxTreeDepth>

@@ -9,6 +9,7 @@ public enum Param {
   NUM_RUNS( "numRuns" ),
   LOG_FILE( "logFilePath" ),
   SOL_FILE( "solFilePath" ),
+  SEARCH_TYPE( "searchType" ),
 
   /* Non-required parameters */
   DEPTH_PROPORTIONAL_INIT( "depthProportionalInit" );
