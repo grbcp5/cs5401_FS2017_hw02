@@ -2,7 +2,6 @@ package edu.mst.grbcp5.hw02.search.IteratedPrisonerDilemma;
 
 import edu.mst.grbcp5.hw02.GRandom;
 import edu.mst.grbcp5.hw02.input.Param;
-import edu.mst.grbcp5.hw02.input.Parameters;
 import edu.mst.grbcp5.hw02.search.Individual;
 import edu.mst.grbcp5.hw02.search.random.RandomSearch;
 import edu.mst.grbcp5.hw02.tree.Node;
@@ -13,9 +12,8 @@ import java.util.Random;
 public class PrisonersDilemmaRandomSearch extends RandomSearch {
 
   public PrisonersDilemmaRandomSearch(
-    Parameters p,
     PrisonersDilemmaRandomSearchDelegate delegate ) {
-    super( p, delegate );
+    super( delegate.getParameters(), delegate );
 
     this.parameters.require( new Param[]{
       Param.MAX_TREE_DEPTH,

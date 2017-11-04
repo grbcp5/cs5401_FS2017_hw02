@@ -12,6 +12,7 @@ import java.util.Random;
 public class PrisonersDilemmaRandomSearchDelegate extends RandomSearchDelegate {
 
   private Prisoner titForTat;
+  private Parameters parameters;
   private IterationRecord[] environment;
   private int individualsRecieved;
 
@@ -33,7 +34,7 @@ public class PrisonersDilemmaRandomSearchDelegate extends RandomSearchDelegate {
       )
     );
 
-    /* Create random initial enviroment */
+    /* Create random initial environment */
     memDepth = parameters.getInteger( Param.MEMORY_DEPTH );
     environment = new IterationRecord[ memDepth ];
     for ( int i = 0; i < memDepth; i++ ) {
@@ -45,6 +46,8 @@ public class PrisonersDilemmaRandomSearchDelegate extends RandomSearchDelegate {
 
     individualsRecieved = 0;
 
+
+    this.parameters = parameters;
   }
 
   @Override
@@ -90,6 +93,10 @@ public class PrisonersDilemmaRandomSearchDelegate extends RandomSearchDelegate {
     pctFree = ( double ) Math.round( pctFree * 100000d ) / 100000d;
 
     return pctFree;
+  }
+
+  public Parameters getParameters() {
+    return this.parameters;
   }
 
 }
