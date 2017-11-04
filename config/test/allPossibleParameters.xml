@@ -23,6 +23,7 @@
 
     <!-- Experiment configuration -->
     <numRuns dataType="Integer">1</numRuns>
+    <numIndividuals dataType="Integer">1</numIndividuals>
     <logFilePath dataType="String">./log/2a/valid1log.txt</logFilePath>
     <solFilePath dataType="String">./sol/2a/valid1log.txt</solFilePath>
 

@@ -10,6 +10,7 @@ public enum Param {
   LOG_FILE( "logFilePath" ),
   SOL_FILE( "solFilePath" ),
   SEARCH_TYPE( "searchType" ),
+  NUM_INDIVIDUALS( "numIndividuals" ),
 
   /* Non-required parameters */
   DEPTH_PROPORTIONAL_INIT( "depthProportionalInit" );
