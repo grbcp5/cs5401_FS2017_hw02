@@ -51,4 +51,20 @@ public class IterationRecord {
 
   }
 
+  @Override
+  public String toString() {
+    StringBuilder sb = new StringBuilder( 9 );
+
+    sb.append( "P: " );
+    sb.append( prisonerDefected ? "Defect" : "Cooperate" );
+    sb.append( " (" );
+    sb.append( prisonerTimeSpent );
+    sb.append( ") O: " );
+    sb.append( opponentDefected ? "Defect" : "Cooperate" );
+    sb.append( " (" );
+    sb.append( opponentTimeSpent );
+    sb.append( ")" );
+
+    return sb.toString().trim();
+  }
 }
