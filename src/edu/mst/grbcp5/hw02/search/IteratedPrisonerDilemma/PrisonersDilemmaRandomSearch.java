@@ -150,7 +150,7 @@ public class PrisonersDilemmaRandomSearch extends RandomSearch {
       Agent.PRISONER,
       0.5
     );
-    rndDepth = rnd.nextInt( k - 1 );
+    rndDepth = rnd.nextInt( k ) + 1;
     result = new Terminal( rndAgent, rndDepth );
 
     return result;

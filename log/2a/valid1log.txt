@@ -8,13 +8,13 @@ memoryDepth: 5
 shouldSeedRandom: false
 iterations: 10000
 maxTreeDepth: 5
-randomSeed: 1509916435667
+randomSeed: 1509917806845
 depthProportionalInit: true
 numRuns: 1
 logFilePath: ./log/2a/valid1log.txt
 
 
 Run 1:
-1	0.32
-4	0.51984
-5	0.52
+1	0.58666
+16	0.6
+32	0.68

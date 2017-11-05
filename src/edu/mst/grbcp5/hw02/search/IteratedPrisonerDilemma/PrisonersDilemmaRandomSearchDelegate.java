@@ -30,7 +30,7 @@ public class PrisonersDilemmaRandomSearchDelegate extends RandomSearchDelegate {
       new Tree< StrategyFunction >(
         new Terminal(
           Agent.OPPONENT,
-          0
+          1
         )
       )
     );

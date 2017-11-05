@@ -2,11 +2,15 @@ package edu.mst.grbcp5.hw02.search.IteratedPrisonerDilemma;
 
 public class Terminal extends StrategyFunction {
 
-  private Agent agent;
-  private Integer time;
+  private final Agent agent;
+  private final Integer time;
 
   public Terminal( Agent agent, Integer time ) {
     super( StrategyFunctionType.TERMINAL );
+
+    if ( time <= 0 ) {
+      throw new IllegalArgumentException( "Time must be positive" );
+    }
 
     this.agent = agent;
     this.time = time;
@@ -16,16 +20,8 @@ public class Terminal extends StrategyFunction {
     return agent;
   }
 
-  public void setAgent( Agent agent ) {
-    this.agent = agent;
-  }
-
   public Integer getTime() {
     return time;
-  }
-
-  public void setTime( Integer time ) {
-    this.time = time;
   }
 
   @Override
@@ -57,4 +53,5 @@ public class Terminal extends StrategyFunction {
     result = 31 * result + ( getTime() != null ? getTime().hashCode() : 0 );
     return result;
   }
+
 }

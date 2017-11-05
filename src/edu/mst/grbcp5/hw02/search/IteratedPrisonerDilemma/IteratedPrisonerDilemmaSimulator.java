@@ -103,7 +103,7 @@ public class IteratedPrisonerDilemmaSimulator {
   ) {
     IterationRecord referencedIteration;
 
-    referencedIteration = environment[ terminal.getTime() ];
+    referencedIteration = environment[ terminal.getTime() - 1 ];
 
     if ( terminal.getAgent() == Agent.OPPONENT ) {
       return referencedIteration.opponentDefected;
