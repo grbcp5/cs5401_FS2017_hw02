@@ -17,7 +17,7 @@
     <numRuns dataType="Integer">30</numRuns>
     <numIndividuals dataType="Integer">10000</numIndividuals>
     <logFilePath dataType="String">./log/2a/valid1log.txt</logFilePath>
-    <solFilePath dataType="String">./sol/2a/valid1log.txt</solFilePath>
+    <solFilePath dataType="String">./sol/2a/valid1sol.txt</solFilePath>
 
     <!--
       2a Algorithm parameters

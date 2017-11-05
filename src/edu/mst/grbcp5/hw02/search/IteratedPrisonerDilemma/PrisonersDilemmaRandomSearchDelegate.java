@@ -7,6 +7,7 @@ import edu.mst.grbcp5.hw02.search.Individual;
 import edu.mst.grbcp5.hw02.search.random.RandomSearchDelegate;
 import edu.mst.grbcp5.hw02.tree.Tree;
 
+import java.io.PrintWriter;
 import java.util.Random;
 
 public class PrisonersDilemmaRandomSearchDelegate extends RandomSearchDelegate {
@@ -58,6 +59,7 @@ public class PrisonersDilemmaRandomSearchDelegate extends RandomSearchDelegate {
     int progressBarStepSize;
     int stepsCompleted;
     int curRun;
+    PrintWriter logWriter;
 
     individualsRecieved++;
     ind.setFitness( this.fitness( ind, this.titForTat, this.environment ) );
@@ -84,6 +86,12 @@ public class PrisonersDilemmaRandomSearchDelegate extends RandomSearchDelegate {
 
     if ( currentBest == null || ind.getFitness() > currentBest.getFitness() ) {
       currentBest = ind;
+
+      logWriter = ( PrintWriter ) parameters.get( Param.LOG_WIRTER );
+      logWriter.println(
+        individualsRecieved + "\t" +
+          ind.getFitness()
+      );
     }
 
   }

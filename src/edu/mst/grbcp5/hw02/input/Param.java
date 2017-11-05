@@ -9,7 +9,9 @@ public enum Param {
   NUM_RUNS( "numRuns" ),
   CURRENT_RUN( "currentRun" ),
   LOG_FILE( "logFilePath" ),
+  LOG_WIRTER( "logWriter" ),
   SOL_FILE( "solFilePath" ),
+  SOL_WRITER( "solWriter" ),
   SEARCH_TYPE( "searchType" ),
   NUM_INDIVIDUALS( "numIndividuals" ),
 

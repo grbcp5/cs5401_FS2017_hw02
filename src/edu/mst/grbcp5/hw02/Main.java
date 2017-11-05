@@ -8,6 +8,8 @@ import edu.mst.grbcp5.hw02.search.IteratedPrisonerDilemma.PrisonersDilemmaRandom
 import edu.mst.grbcp5.hw02.search.IteratedPrisonerDilemma.PrisonersDilemmaRandomSearchDelegate;
 import edu.mst.grbcp5.hw02.search.random.RandomSearch;
 
+import java.io.File;
+import java.io.PrintWriter;
 import java.util.Random;
 
 public class Main {
@@ -22,6 +24,10 @@ public class Main {
     PrisonersDilemmaRandomSearchDelegate delegate;
     RandomSearch searcher;
     String searchType;
+    String logFilePath;
+    PrintWriter logWriter;
+    String solFilePath;
+    PrintWriter solWriter;
     int numRuns;
 
     /* Check for program arguments */
@@ -34,22 +40,38 @@ public class Main {
     configFilePath = args[ 0 ];
     parameters = getParameters( configFilePath );
 
+    /* Check search type */
+    searchType = parameters.getString( Param.SEARCH_TYPE );
+    if ( !searchType.toLowerCase().equals( "random" ) ) {
+
+        /* Only support random search */
+      throw new Exception( "Only random search supported" );
+
+    }
+
+    /* Seed random number generator based on parameters */
+    seedRandomNumberGenerator( parameters );
+
+    logFilePath = parameters.getString( Param.LOG_FILE );
+    logWriter = new PrintWriter( new File( logFilePath ) );
+    solFilePath = parameters.getString( Param.SOL_FILE );
+    solWriter = new PrintWriter( new File( solFilePath ) );
+
+    logWriter.println( "Result Log:\n" );
+    logWriter.println( "Parameters:\n" + parameters.toString() );
+
+    parameters.put( Param.LOG_WIRTER, logWriter );
+    parameters.put( Param.SOL_WRITER, solWriter );
+
     numRuns = parameters.getInteger( Param.NUM_RUNS );
     for ( int r = 0; r < numRuns; r++ ) {
+
+      logWriter.println( "\nRun " + ( r + 1 ) + ":" );
 
       parameters.put( Param.CURRENT_RUN, r + 1 );
 
       /* Seed random number generator based on parameters */
       seedRandomNumberGenerator( parameters );
-
-      /* Check search type */
-      searchType = parameters.getString( Param.SEARCH_TYPE );
-      if ( !searchType.toLowerCase().equals( "random" ) ) {
-
-        /* Only support random search */
-        throw new Exception( "Only random search supported" );
-
-      }
 
       delegate = new PrisonersDilemmaRandomSearchDelegate( parameters );
       searcher = new PrisonersDilemmaRandomSearch( delegate );
@@ -61,7 +83,12 @@ public class Main {
       System.out.println( "\tPreorder: " + i );
       System.out.println( "\tFitness: " + i.getFitness() );
 
-    }
+    } /* For each run */
+
+    logWriter.flush();
+    logWriter.close();
+    solWriter.flush();
+    solWriter.close();
 
   }
 
@@ -89,6 +116,7 @@ public class Main {
       rndSeed = parameters.getLong( Param.RANDOM_SEED );
     } else {
       rndSeed = System.currentTimeMillis();
+      parameters.put( Param.RANDOM_SEED, rndSeed );
     }
 
     GRandom.setInstance( new Random( rndSeed ) );

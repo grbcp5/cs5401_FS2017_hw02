@@ -1,6 +1,7 @@
 package edu.mst.grbcp5.hw02.input;
 
 import java.util.Map;
+import java.util.Set;
 
 public class Parameters {
 
@@ -12,6 +13,10 @@ public class Parameters {
 
   public void put( Param param, Object value ) {
     parameters.put( param.identifier(), value );
+  }
+
+  public Object get( Param param ) {
+    return parameters.get( param.identifier() );
   }
 
   public void require( Param[] requiredParameters ) throws
@@ -74,6 +79,25 @@ public class Parameters {
 
   public String[] getList( Param p ) {
     return ( String[] ) ( this.parameters.get( p.identifier() ) );
+  }
+
+  @Override
+  public String toString() {
+
+    StringBuilder sb;
+    Set< String > keys;
+
+    keys = this.parameters.keySet();
+    sb = new StringBuilder( keys.size() * 4 );
+
+    for ( String key : keys ) {
+      sb.append( key );
+      sb.append( ": " );
+      sb.append( this.parameters.get( key ).toString() );
+      sb.append( "\n" );
+    }
+
+    return sb.toString();
   }
 
 }

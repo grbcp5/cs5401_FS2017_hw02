@@ -10,11 +10,11 @@
     <iterations dataType="Integer">20</iterations>
     <memoryDepth dataType="Integer">5</memoryDepth>
     <maxTreeDepth dataType="Integer">5</maxTreeDepth>
-    <shouldSeedRandom dataType="Boolean">true</shouldSeedRandom>
+    <shouldSeedRandom dataType="Boolean">false</shouldSeedRandom>
     <randomSeed dataType="Long">10021995</randomSeed>
 
     <!-- Experiment configuration -->
-    <numRuns dataType="Integer">1</numRuns>
+    <numRuns dataType="Integer">30</numRuns>
     <numIndividuals dataType="Integer">10000</numIndividuals>
     <logFilePath dataType="String">./log/2a/valid1log.txt</logFilePath>
     <solFilePath dataType="String">./sol/2a/valid1sol.txt</solFilePath>
