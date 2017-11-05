@@ -29,6 +29,7 @@ public class Main {
     String solFilePath;
     PrintWriter solWriter;
     int numRuns;
+    Individual currentBest;
 
     /* Check for program arguments */
     if ( args.length != 1 ) {
@@ -52,6 +53,7 @@ public class Main {
     /* Seed random number generator based on parameters */
     seedRandomNumberGenerator( parameters );
 
+    /* Create log and sol writers */
     logFilePath = parameters.getString( Param.LOG_FILE );
     logWriter = new PrintWriter( new File( logFilePath ) );
     solFilePath = parameters.getString( Param.SOL_FILE );
@@ -63,6 +65,10 @@ public class Main {
     parameters.put( Param.LOG_WIRTER, logWriter );
     parameters.put( Param.SOL_WRITER, solWriter );
 
+    /* Initialize current best */
+    currentBest = null;
+
+    /* Execute each run */
     numRuns = parameters.getInteger( Param.NUM_RUNS );
     for ( int r = 0; r < numRuns; r++ ) {
 
@@ -73,17 +79,28 @@ public class Main {
       /* Seed random number generator based on parameters */
       seedRandomNumberGenerator( parameters );
 
+      /* Create searcher objects */
       delegate = new PrisonersDilemmaRandomSearchDelegate( parameters );
       searcher = new PrisonersDilemmaRandomSearch( delegate );
 
+      /* Execute search */
       searcher.getRandomIndividuals( 10000 );
+
+      /* Get best individual from run */
       Individual i = delegate.getCurrentBest();
 
       System.out.println( "\nBest individual: " );
       System.out.println( "\tPreorder: " + i );
       System.out.println( "\tFitness: " + i.getFitness() );
 
+      if ( currentBest == null || i.getFitness() > currentBest.getFitness() ) {
+        currentBest = i;
+        System.out.println( "New best" );
+      }
+
     } /* For each run */
+
+    solWriter.println( currentBest.toString() );
 
     logWriter.flush();
     logWriter.close();
