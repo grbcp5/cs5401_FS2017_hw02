@@ -20,42 +20,45 @@ public class IteratedPrisonerDilemmaSimulator {
 
     /* Iterate */
     for ( int i = 0; i < iterations; i++ ) {
-      thisIteration = simulate(
+
+      /* Get results of this iteration */
+      thisIteration = simulateOneRound(
         p1,
         p2,
         environment
       );
 
-      /* Shift everything to the left one */
+      /* Shift enviroment "back" one */
       System.arraycopy(
         environment,
-        1,
-        environment,
         0,
+        environment,
+        1,
         environment.length - 1
       );
-      /* Put this iteration at most recent */
-      environment[ environment.length - 1 ] = thisIteration;
+      /* Put this iteration at most recent position */
+      environment[ 0 ] = thisIteration;
 
       /* Increment time spent */
       totalYears += thisIteration.prisonerTimeSpent;
-    }
+
+    } /* For each iteration */
 
     return totalYears;
   }
 
-  public static IterationRecord simulate(
+  public static IterationRecord simulateOneRound(
     Prisoner p1,
     Prisoner p2,
     IterationRecord[] environment
   ) {
     return new IterationRecord(
-      simulate( p1, environment ),
-      simulate( p2, environment )
+      getPrisonersDecision( p1, environment ),
+      getPrisonersDecision( p2, IterationRecord.swapSides( environment ) )
     );
   }
 
-  public static boolean simulate(
+  public static boolean getPrisonersDecision(
     Prisoner p,
     IterationRecord[] environment
   ) {

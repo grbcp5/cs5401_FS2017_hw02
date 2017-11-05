@@ -104,22 +104,22 @@ public class PrisonersDilemmaRandomSearchDelegate extends RandomSearchDelegate {
   ) {
     Prisoner p = ( Prisoner ) i;
     Prisoner opponent = ( Prisoner ) o;
-    int numYearsSepnt;
+    int numYearsSpent;
     int iterations;
     double pctFree;
 
     iterations = this.parameters.getInteger( Param.ITERATIONS );
-    numYearsSepnt = IteratedPrisonerDilemmaSimulator.simulate(
+    numYearsSpent = IteratedPrisonerDilemmaSimulator.simulate(
       ( Prisoner ) i,
       ( Prisoner ) o,
       iterations,
       environment
     );
 
-    pctFree = 1 - ( numYearsSepnt /
+    pctFree = 1 - ( numYearsSpent /
       ( double ) ( IterationRecord.OPP_DEFECTS * iterations ) );
 
-    pctFree = ( double ) Math.round( pctFree * 100000d ) / 100000d;
+    //pctFree = ( double ) Math.round( pctFree * 100000d ) / 100000d;
 
     return pctFree;
   }

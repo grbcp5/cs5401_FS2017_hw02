@@ -67,4 +67,19 @@ public class IterationRecord {
 
     return sb.toString().trim();
   }
+
+  public static IterationRecord[] swapSides( IterationRecord[] env ) {
+
+    IterationRecord[] result = new IterationRecord[ env.length ];
+    IterationRecord ir = null;
+
+    for ( int i = 0; i < env.length; i++ ) {
+      ir = env[ i ];
+      result[ i ]
+        = new IterationRecord( ir.opponentDefected, ir.prisonerDefected );
+    }
+
+    return result;
+  }
+
 }

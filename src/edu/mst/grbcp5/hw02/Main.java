@@ -15,6 +15,7 @@ import java.util.Random;
 public class Main {
 
   public static final boolean DEBUG = true;
+  public static boolean ENABLE_BREAKPOINT = false;
 
   public static void main( String[] args ) throws Exception {
 
