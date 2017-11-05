@@ -73,7 +73,7 @@ public class Node< T > {
       this.getChildren().get( i ).stringBuilderToString( sb );
     }
 
-    return sb.toString();
+    return sb.toString().trim();
   }
 
 }
