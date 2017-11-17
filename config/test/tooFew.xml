@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<config>
+
+    <!--
+      Required for execution as of 2a
+    -->
+
+    <!-- Game configuration -->
+    <iterations dataType="Integer">1</iterations>
+    <memoryDepth dataType="Integer">2</memoryDepth>
+    <maxTreeDepth dataType="Integer">3</maxTreeDepth>
+    <shouldSeedRandom dataType="Boolean">true</shouldSeedRandom>
+
+    <!-- Experiment configuration -->
+    <numRuns dataType="Integer">1</numRuns>
+    <logFilePath dataType="String">./log/2a/valid1log.txt</logFilePath>
+
+    <!--
+      2a Algorithm parameters
+    -->
+
+
+</config>
