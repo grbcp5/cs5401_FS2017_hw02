@@ -105,4 +105,42 @@ public class EvolutionarySearchTest {
 
   }
 
+  @Test
+  public void testCrossover() throws Exception {
+
+    Map<String, Object> parameters = new HashMap<>();
+    parameters.put( Param.MEMORY_DEPTH.identifier(), 5 );
+    parameters.put( Param.MAX_TREE_DEPTH.identifier(), 5 );
+    parameters.put( Param.DEPTH_PROPORTIONAL_INIT.identifier(), true );
+    PrisonersDilemmaRandomSearchDelegate rsDelegate
+      = new PrisonersDilemmaRandomSearchDelegate(
+      new Parameters( parameters )
+    );
+    RandomSearch randomSearch = new PrisonersDilemmaRandomSearch( rsDelegate );
+    Prisoner p1;
+    Prisoner p2;
+    Prisoner c;
+
+    for ( int i = 0; i < 10; i++ ) {
+      p1 = randomSearch.getRandomIndividual();
+      p2 = randomSearch.getRandomIndividual();
+      System.out.println( "Iteration " + i );
+      System.out.println( "\tRandom Parent 1: " );
+      System.out.println( "\t\t" + p1.toString() );
+      System.out.println( "\tRandom Parent 2: " );
+      System.out.println( "\t\t" + p2.toString() );
+
+      c = Manipulation.subTreeCrossover( p1, p2, 5 );
+      System.out.println( "\tExecute Crossover" );
+
+      System.out.println( "\tRandom Parent 1: " );
+      System.out.println( "\t\t" + p1.toString() );
+      System.out.println( "\tRandom Parent 2: " );
+      System.out.println( "\t\t" + p2.toString() );
+      System.out.println( "\tChild: " );
+      System.out.println( "\t\t" + c.toString() );
+    }
+
+  }
+
 }

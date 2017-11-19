@@ -196,8 +196,80 @@ public class Manipulation {
     int maxLevel
   ) {
 
-    return new Prisoner();
+    Prisoner child;
+
+    child = new Prisoner(
+      new Tree<>(
+        addSubtree(
+          new Node<>( p1.getStrategy().getRoot() ),
+          new Node<>( getRandomNode( p2.getStrategy().getRoot() ) ),
+          0,
+          maxLevel
+        )
+      )
+    );
+
+    return child;
   }
 
+  private static Node< StrategyFunction > addSubtree(
+    Node< StrategyFunction > root,
+    Node< StrategyFunction > subTree,
+    int level,
+    int maxHeight
+  ) {
+
+    Node< StrategyFunction > child;
+
+    if ( root.getData().getType() == StrategyFunctionType.TERMINAL
+      || level + subTree.getHeight() == maxHeight
+      || GRandom.getInstance().nextDouble() < 0.5 ) {
+      return subTree;
+    }
+
+    if ( ( ( LogicalOperator ) root.getData() ).getOperator() == Operator.NOT
+      || GRandom.getInstance().nextDouble() < 0.5 ) {
+      child = root.getChildren().remove( 0 );
+    } else {
+      child = root.getChildren().remove( 1 );
+    }
+
+    root.getChildren().add(
+      addSubtree(
+        child,
+        subTree,
+        level + 1,
+        maxHeight
+      )
+    );
+
+    return root;
+
+  }
+
+  private static Node< StrategyFunction > getRandomNode(
+    Node< StrategyFunction > n
+  ) {
+
+    if ( n.getData().getType() == StrategyFunctionType.TERMINAL
+      || GRandom.getInstance().nextDouble() < 0.5 ) {
+      return n;
+    } else {
+
+      if ( ( ( LogicalOperator ) n.getData() ).getOperator() == Operator.NOT
+        || GRandom.getInstance().nextDouble() < 0.5 ) {
+
+        return getRandomNode( n.getChildren().get( 0 ) );
+
+      } else {
+
+        return getRandomNode( n.getChildren().get( 1 ) );
+
+
+      }
+
+    }
+
+  }
 
 }
