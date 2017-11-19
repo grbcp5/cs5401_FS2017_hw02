@@ -72,7 +72,7 @@ public class Selection {
 
     /* Local variables */
     Prisoner selection[];
-    List<Prisoner> pop = new ArrayList<>( Arrays.asList( population ) );
+    List< Prisoner > pop = new ArrayList<>( Arrays.asList( population ) );
     double best;
     double cur;
     int bestIdx;
@@ -88,16 +88,16 @@ public class Selection {
 
       /* Get best from group of size k */
       best = -1.0;
-      for ( int j = 0; j < k  ; j++ ) {
+      for ( int j = 0; j < k; j++ ) {
         cur = pop.get( rnd.nextInt( pop.size() ) ).getFitness();
-        if( cur > best ) {
+        if ( cur > best ) {
           best =
-          bestIdx = j;
+            bestIdx = j;
         }
       }
 
       /* Add best from group to selection */
-      if( replace ) {
+      if ( replace ) {
         selection[ i ] = pop.get( bestIdx );
       } else {
         selection[ i ] = pop.remove( bestIdx );
@@ -106,6 +106,40 @@ public class Selection {
     }
 
     return selection;
+  }
+
+  public static Prisoner[] overSelection(
+    Prisoner[] population,
+    int selectionSize,
+    double cutoffPercentage
+  ) {
+
+    /* Local variables */
+    Prisoner result[];
+    int cutoffLine;
+    int selectedIdx;
+    int idx;
+    Random rnd;
+
+    /* Initialize */
+    result = new Prisoner[ selectionSize ];
+    Arrays.sort( population );
+    cutoffLine = ( int ) ( cutoffPercentage * population.length );
+    rnd = GRandom.getInstance();
+    idx = 0;
+
+    /* Select */
+    for( int i = ( int ) ( 0.8 * selectionSize ); i < selectionSize; i++ ) {
+      selectedIdx
+        = rnd.nextInt( population.length - cutoffLine ) + cutoffLine;
+      result[ idx++ ] = population[ selectedIdx ];
+    }
+    for( int i = 0; i < ( int ) ( 0.8 * selectionSize ); i++ ) {
+      selectedIdx = rnd.nextInt( cutoffLine );
+      result[ idx++ ] = population[ selectedIdx ];
+    }
+
+    return result;
   }
 
 }
