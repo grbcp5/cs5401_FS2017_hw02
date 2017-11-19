@@ -16,6 +16,10 @@ public class Tree< T > {
     root.setData( rootData );
   }
 
+  public Tree( Node< T > root ) {
+    this.root = root;
+  }
+
   public Tree( Tree< T > copy ) {
     this.root = new Node< T >( copy.getRoot() );
   }
