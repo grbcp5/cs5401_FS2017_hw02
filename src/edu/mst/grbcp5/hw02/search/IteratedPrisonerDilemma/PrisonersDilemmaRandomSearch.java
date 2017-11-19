@@ -24,13 +24,40 @@ public class PrisonersDilemmaRandomSearch extends RandomSearch {
 
 
   @Override
-  public Individual getRandomIndividual() {
+  public Prisoner getRandomIndividual() {
     Prisoner p;
 
     /* Create a random prisoner */
     p = new Prisoner( createRandomTree() );
 
     return p;
+  }
+
+  public Prisoner getFullIndividual() {
+    return new Prisoner( createFullTree() );
+  }
+
+  private Tree< StrategyFunction > createFullTree() {
+
+    /* Local variables */
+    Tree< StrategyFunction > result;
+    Node< StrategyFunction > node;
+    int d = this.parameters.getInteger( Param.MAX_TREE_DEPTH );
+    double step;
+
+    /* Initialize */
+    result = new Tree<>();
+    step = 1 / ( ( double ) d );
+
+    /* Create a random tree */
+    node = getFullNode( 0 ); // get a random node
+    result.getRoot().setData( node.getData() ); // set rand node's data to root
+    for ( Node< StrategyFunction > child : node.getChildren() ) {
+      result.getRoot().getChildren().add( child ); // add rand node's children
+    }                                              // to root
+
+    return result;
+
   }
 
   private Tree< StrategyFunction > createRandomTree() {
@@ -55,6 +82,66 @@ public class PrisonersDilemmaRandomSearch extends RandomSearch {
     return result;
   }
 
+  private Node< StrategyFunction > getFullNode( int thisNodesLevel ) {
+
+    /* Local Variables */
+    StrategyFunctionType randType;
+    Node< StrategyFunction > result;
+    LogicalOperator op;
+    GRandom< StrategyFunctionType > rndAssist;
+    double chanceOfTerminal;
+
+    /* Initialize */
+    result = new Node<>();
+    rndAssist = new GRandom<>();
+
+    chanceOfTerminal =
+      ( thisNodesLevel == parameters.getInteger( Param.MAX_TREE_DEPTH ) ) ?
+      1.0 : 0.0;
+
+    randType = rndAssist.getRndXorY(
+      StrategyFunctionType.TERMINAL,
+      StrategyFunctionType.LOGICAL_OPERATOR,
+      chanceOfTerminal
+    );
+
+    /* If terminal */
+    if ( randType == StrategyFunctionType.TERMINAL ) {
+
+      result.getChildren().clear();
+      result.setData( generateRandomTerminal() );
+
+    /* If operator */
+    } else {
+      /* Set data */
+      op = getRandomOperator();
+      result.setData( op );
+
+      switch ( op.getOperator() ) {
+        case AND:
+        case OR:
+        case XOR:
+          /* Add two children for binary operators */
+          result.getChildren().add(
+            getFullNode( thisNodesLevel + 1 )
+          );
+          result.getChildren().add(
+            getFullNode( thisNodesLevel + 1 )
+          );
+          break;
+        case NOT:
+          /* Add one child for unary operator */
+          result.getChildren().add(
+            getFullNode( thisNodesLevel + 1 )
+          );
+          break;
+      }
+    }
+
+    return result;
+
+  }
+
   private Node< StrategyFunction > getRandomNode( int thisNodesLevel,
                                                   double step ) {
     /* Local Variables */
@@ -69,7 +156,7 @@ public class PrisonersDilemmaRandomSearch extends RandomSearch {
     rndAssist = new GRandom<>();
 
     if (
-      parameters.getBoolean( Param.DEPTH_PROPORTIONAL_INIT, true )
+      parameters.getBoolean( Param.DEPTH_PROPORTIONAL_INIT, false )
       ) {
       /* Generate random type based on current level ( See footnote ) */
       chanceOfTerminal = ( thisNodesLevel == 0 ) ?

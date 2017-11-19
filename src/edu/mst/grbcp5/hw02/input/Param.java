@@ -14,6 +14,8 @@ public enum Param {
   SOL_WRITER( "solWriter" ),
   SEARCH_TYPE( "searchType" ),
   NUM_INDIVIDUALS( "numIndividuals" ),
+  NUM_CHILDREN( "numChildren" ),
+  POPULATION_SIZE( "populationSize" ),
 
   /* Non-required parameters */
   DEPTH_PROPORTIONAL_INIT( "depthProportionalInit" );

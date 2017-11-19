@@ -2,6 +2,7 @@ package edu.mst.grbcp5.hw02.search.random;
 
 import edu.mst.grbcp5.hw02.input.Parameters;
 import edu.mst.grbcp5.hw02.search.Individual;
+import edu.mst.grbcp5.hw02.search.IteratedPrisonerDilemma.Prisoner;
 
 public abstract class RandomSearch {
 
@@ -16,7 +17,7 @@ public abstract class RandomSearch {
     this.delegate = delegate;
   }
 
-  public abstract Individual getRandomIndividual();
+  public abstract Prisoner getRandomIndividual();
 
   public void getRandomIndividuals( int n ) {
 
