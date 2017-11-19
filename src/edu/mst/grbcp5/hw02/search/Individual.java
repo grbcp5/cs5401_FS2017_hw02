@@ -2,7 +2,9 @@ package edu.mst.grbcp5.hw02.search;
 
 import edu.mst.grbcp5.hw02.tree.Tree;
 
-public abstract class Individual< T > {
+import java.util.Comparator;
+
+public abstract class Individual< T > implements Comparable{
 
   protected Tree< T > strategy;
   protected Double fitness;
@@ -30,4 +32,10 @@ public abstract class Individual< T > {
 
   public abstract String toString();
 
+  @Override
+  public int compareTo( Object o ) {
+    Individual other = (Individual)o;
+
+    return this.getFitness().compareTo( other.getFitness() );
+  }
 }
