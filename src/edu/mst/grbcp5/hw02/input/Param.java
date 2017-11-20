@@ -16,6 +16,14 @@ public enum Param {
   NUM_INDIVIDUALS( "numIndividuals" ),
   NUM_CHILDREN( "numChildren" ),
   POPULATION_SIZE( "populationSize" ),
+  PARSIMONY_COEFFICIENT( "parsimonyCoeficient" ),
+  FITNESS_EVALS( "fitnessEvals" ),
+  CONVERGENCE_CRITERION( "convergenceCriterion" ),
+  MUTATION_FREQUENCY( "mutationFrequency" ),
+  PARENT_SELECTION( "parentSelection" ),
+  SURVIVAL_SELECTION( "survivalSelection" ),
+  OVER_SELECTION_CUT_OFF_PERCENTAGE( "overSelectionCutOffPercentage" ),
+  TOURNAMENT_SIZE( "tournamentSize" ),
 
   /* Non-required parameters */
   DEPTH_PROPORTIONAL_INIT( "depthProportionalInit" );

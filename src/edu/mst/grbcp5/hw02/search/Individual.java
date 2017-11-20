@@ -32,10 +32,18 @@ public abstract class Individual< T > implements Comparable{
 
   public abstract String toString();
 
+  public Integer getSize() {
+    return this.strategy.getSize();
+  }
+
   @Override
   public int compareTo( Object o ) {
     Individual other = (Individual)o;
 
-    return this.getFitness().compareTo( other.getFitness() );
+    int b1 = this.getFitness().compareTo( other.getFitness() );
+
+    return ( b1 == 0 ) ?
+      -this.getSize().compareTo( other.getSize() ):
+      b1;
   }
 }

@@ -4,8 +4,11 @@ import edu.mst.grbcp5.hw02.input.ConfigFileReader;
 import edu.mst.grbcp5.hw02.input.Param;
 import edu.mst.grbcp5.hw02.input.Parameters;
 import edu.mst.grbcp5.hw02.search.Individual;
+import edu.mst.grbcp5.hw02.search.IteratedPrisonerDilemma.Prisoner;
 import edu.mst.grbcp5.hw02.search.IteratedPrisonerDilemma.PrisonersDilemmaRandomSearch;
 import edu.mst.grbcp5.hw02.search.IteratedPrisonerDilemma.PrisonersDilemmaRandomSearchDelegate;
+import edu.mst.grbcp5.hw02.search.evolutionary.EvolutionarySearch;
+import edu.mst.grbcp5.hw02.search.evolutionary.EvolutionarySearchDelegate;
 import edu.mst.grbcp5.hw02.search.random.RandomSearch;
 
 import java.io.File;
@@ -31,6 +34,8 @@ public class Main {
     PrintWriter solWriter;
     int numRuns;
     Individual currentBest;
+    EvolutionarySearchDelegate esDelegate;
+    EvolutionarySearch evolutionarySearch;
 
     /* Check for program arguments */
     if ( args.length != 1 ) {
@@ -42,17 +47,9 @@ public class Main {
     configFilePath = args[ 0 ];
     parameters = getParameters( configFilePath );
 
-    /* Check search type */
-    searchType = parameters.getString( Param.SEARCH_TYPE );
-    if ( !searchType.toLowerCase().equals( "random" ) ) {
-
-        /* Only support random search */
-      throw new Exception( "Only random search supported" );
-
-    }
-
     /* Seed random number generator based on parameters */
     seedRandomNumberGenerator( parameters );
+
 
     /* Create log and sol writers */
     logFilePath = parameters.getString( Param.LOG_FILE );
@@ -66,42 +63,91 @@ public class Main {
     parameters.put( Param.LOG_WIRTER, logWriter );
     parameters.put( Param.SOL_WRITER, solWriter );
 
-    /* Initialize current best */
-    currentBest = null;
+    /* Check search type */
+    searchType = parameters.getString( Param.SEARCH_TYPE );
+    if ( searchType.toLowerCase().equals( "random" ) ) {
 
-    /* Execute each run */
-    numRuns = parameters.getInteger( Param.NUM_RUNS );
-    for ( int r = 0; r < numRuns; r++ ) {
+      /* Initialize current best */
+      currentBest = null;
 
-      logWriter.println( "\nRun " + ( r + 1 ) + ":" );
+      /* Execute each run */
+      numRuns = parameters.getInteger( Param.NUM_RUNS );
+      for ( int r = 0; r < numRuns; r++ ) {
 
-      parameters.put( Param.CURRENT_RUN, r + 1 );
+        logWriter.println( "\nRun " + ( r + 1 ) + ":" );
 
-      /* Seed random number generator based on parameters */
-      seedRandomNumberGenerator( parameters );
+        parameters.put( Param.CURRENT_RUN, r + 1 );
 
-      /* Create searcher objects */
-      delegate = new PrisonersDilemmaRandomSearchDelegate( parameters );
-      searcher = new PrisonersDilemmaRandomSearch( delegate );
+        /* Seed random number generator based on parameters */
+        seedRandomNumberGenerator( parameters );
 
-      /* Execute search */
-      searcher.getRandomIndividuals( 10000 );
+        /* Create searcher objects */
+        delegate = new PrisonersDilemmaRandomSearchDelegate( parameters );
+        searcher = new PrisonersDilemmaRandomSearch( delegate );
 
-      /* Get best individual from run */
-      Individual i = delegate.getCurrentBest();
+        /* Execute search */
+        searcher.getRandomIndividuals( 10000 );
 
-      System.out.println( "\nBest individual: " );
-      System.out.println( "\tPreorder: " + i );
-      System.out.println( "\tFitness: " + i.getFitness() );
+        /* Get best individual from run */
+        Individual i = delegate.getCurrentBest();
 
-      if ( currentBest == null || i.getFitness() > currentBest.getFitness() ) {
-        currentBest = i;
-        System.out.println( "New best" );
-      }
+        System.out.println( "\nBest individual: " );
+        System.out.println( "\tPreorder: " + i );
+        System.out.println( "\tFitness: " + i.getFitness() );
 
-    } /* For each run */
+        if ( currentBest == null ||
+          i.getFitness() > currentBest.getFitness() ) {
+          currentBest = i;
+          System.out.println( "New best" );
+        }
 
-    solWriter.println( currentBest.toString() );
+      } /* For each run */
+
+      solWriter.println( currentBest.toString() );
+
+    } else if ( searchType.equalsIgnoreCase( "Evolutionary" ) ) {
+
+      /* Initialize current best */
+      currentBest = null;
+
+      /* Execute each run */
+      numRuns = parameters.getInteger( Param.NUM_RUNS );
+      for ( int r = 0; r < numRuns; r++ ) {
+
+        logWriter.println( "\nRun " + ( r + 1 ) + ":" );
+
+        parameters.put( Param.CURRENT_RUN, r + 1 );
+
+        /* Seed random number generator based on parameters */
+        seedRandomNumberGenerator( parameters );
+
+        /* Create searcher objects */
+        esDelegate = new EvolutionarySearchDelegate( parameters );
+        evolutionarySearch = new EvolutionarySearch( esDelegate );
+
+        /* Execute search */
+        evolutionarySearch.search();
+
+        /* Get best individual from run */
+        Prisoner p = esDelegate.getCurrentBest();
+
+        System.out.println( "\nBest individual: " );
+        System.out.println( "\tPreorder: " + p );
+        System.out.println( "\tFitness: " + p.getFitness() );
+
+        if ( currentBest == null ||
+          p.getFitness() > currentBest.getFitness() ) {
+          currentBest = p;
+          System.out.println( "New best" );
+        }
+
+      } /* For each run */
+
+      solWriter.println( currentBest.toString() );
+
+    }
+
+
 
     logWriter.flush();
     logWriter.close();

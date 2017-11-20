@@ -41,7 +41,7 @@ public class Selection {
     return selection;
   }
 
-  public static Prisoner[] Truncation(
+  public static Prisoner[] truncation(
     Prisoner[] population,
     int selectionSize
   ) {

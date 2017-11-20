@@ -61,6 +61,16 @@ public class Node< T > {
     return height + 1;
   }
 
+  public int getSize() {
+    int size = 1;
+
+    for ( Node< T > child : this.getChildren() ) {
+      size += child.getSize();
+    }
+
+    return size;
+  }
+
   public String toString() {
     return stringBuilderToString( new StringBuilder() );
   }
