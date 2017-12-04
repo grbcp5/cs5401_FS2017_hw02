@@ -1,0 +1,46 @@
+<?xml version="1.0"?>
+<config>
+
+    <!--
+      Required for execution as of 2a
+    -->
+
+    <!-- Game configuration -->
+    <searchType dataType="String">Evolutionary</searchType>
+    <coevolution dataType="Boolean">true</coevolution>
+    <iterations dataType="Integer">30</iterations>
+    <memoryDepth dataType="Integer">5</memoryDepth>
+    <maxTreeDepth dataType="Integer">10</maxTreeDepth>
+    <shouldSeedRandom dataType="Boolean">false</shouldSeedRandom>
+    <!--<randomSeed dataType="Long">10021995</randomSeed>-->
+
+    <!-- Experiment configuration -->
+    <numRuns dataType="Integer">30</numRuns>
+    <logFilePath dataType="String">./log/2c/trial1.txt</logFilePath>
+    <solFilePath dataType="String">./sol/2c/trial1.txt</solFilePath>
+
+    <!--
+      2a Algorithm parameters
+    -->
+    <depthProportionalInit dataType="Boolean">true</depthProportionalInit>
+
+    <!--
+      Evolutionary parameters
+    -->
+    <numChildren dataType="Integer">100</numChildren>
+    <populationSize dataType="Integer">500</populationSize>
+    <parsimonyCoeficient dataType="Double">0.05</parsimonyCoeficient>
+    <fitnessEvals dataType="Integer">10000</fitnessEvals>
+    <convergenceCriterion dataType="Integer">15</convergenceCriterion>
+    <mutationFrequency dataType="Double">0.5</mutationFrequency>
+    <parentSelection dataType="String">fitnessProportionalSelection</parentSelection>
+    <survivalSelection dataType="String">kTournamentSelection</survivalSelection>
+    <!--<overSelectionCutOffPercentage dataType="Double">0.75</overSelectionCutOffPercentage>-->
+    <tournamentSize dataType="Integer">3</tournamentSize>
+
+    <!--
+      Coevolutionary parameters
+    -->
+    <coevolutionaryFitnessSamplingPercentage dataType="Double">0.1</coevolutionaryFitnessSamplingPercentage>
+
+</config>
