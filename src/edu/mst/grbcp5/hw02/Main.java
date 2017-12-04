@@ -28,9 +28,11 @@ public class Main {
     PrisonersDilemmaRandomSearchDelegate delegate;
     RandomSearch searcher;
     String searchType;
+    File logFile;
     String logFilePath;
     PrintWriter logWriter;
     String solFilePath;
+    File solFile;
     PrintWriter solWriter;
     int numRuns;
     Individual currentBest;
@@ -53,9 +55,13 @@ public class Main {
 
     /* Create log and sol writers */
     logFilePath = parameters.getString( Param.LOG_FILE );
-    logWriter = new PrintWriter( new File( logFilePath ) );
+    logFile = new File( logFilePath );
+    logFile.getParentFile().mkdirs();
+    logWriter = new PrintWriter( logFile );
     solFilePath = parameters.getString( Param.SOL_FILE );
-    solWriter = new PrintWriter( new File( solFilePath ) );
+    solFile = new File( solFilePath );
+    solFile.getParentFile().mkdirs();
+    solWriter = new PrintWriter( solFile );
 
     logWriter.println( "Result Log:\n" );
     logWriter.println( "Parameters:\n" + parameters.toString() );
