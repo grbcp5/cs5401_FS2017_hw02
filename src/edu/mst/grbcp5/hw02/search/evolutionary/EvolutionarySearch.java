@@ -38,6 +38,7 @@ public class EvolutionarySearch {
 
     }
 
+    delegate.exitingWithPopulation( population );
   }
 
   private Prisoner[] createChildren( Prisoner[] population ) {

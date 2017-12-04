@@ -31,7 +31,6 @@ public class EvolutionarySearchDelegate {
   private double fitnessSum;
 
   private boolean coevolution;
-  private double fitnessSamplingPct;
 
   public EvolutionarySearchDelegate(
     Parameters parameters
@@ -77,7 +76,7 @@ public class EvolutionarySearchDelegate {
       Param.COEVOLUTION,
       false
     );
-    this.fitnessSamplingPct = parameters.getDouble(
+    double fitnessSamplingPct = parameters.getDouble(
       Param.FITNESS_SAMPLING_PCT,
       ( 1.0 / parameters.getInteger( Param.POPULATION_SIZE ) )
     );
@@ -345,6 +344,38 @@ public class EvolutionarySearchDelegate {
 
   public Prisoner getCurrentBest() {
     return this.currentBest;
+  }
+
+  public void exitingWithPopulation( Prisoner[] population ) {
+
+    /* Local variables */
+    PrintWriter logWriter;
+    double curFitness;
+    Prisoner bestSoFar;
+
+    /* Initialize */
+    logWriter = ( PrintWriter ) parameters.get( Param.LOG_WIRTER );
+    bestSoFar = null;
+
+    logWriter.println( "\nAbsolute Fitness:" );
+
+    for ( int i = 0; i < population.length; i++ ) {
+      curFitness = this.fitness(
+        population[ i ],
+        titForTat,
+        this.environment
+      );
+
+      if( bestSoFar == null || bestSoFar.getFitness() < curFitness ) {
+        population[ i ].setFitness( curFitness );
+        bestSoFar = population[ i ];
+      }
+
+    }
+
+    logWriter.println( bestSoFar.getFitness() );
+    this.currentBest = bestSoFar;
+
   }
 
 }
