@@ -24,6 +24,8 @@ public enum Param {
   SURVIVAL_SELECTION( "survivalSelection" ),
   OVER_SELECTION_CUT_OFF_PERCENTAGE( "overSelectionCutOffPercentage" ),
   TOURNAMENT_SIZE( "tournamentSize" ),
+  COEVOLUTION( "coevolution" ),
+  FITNESS_SAMPLING_PCT( "coevolutionaryFitnessSamplingPercentage" ),
 
   /* Non-required parameters */
   DEPTH_PROPORTIONAL_INIT( "depthProportionalInit" );
