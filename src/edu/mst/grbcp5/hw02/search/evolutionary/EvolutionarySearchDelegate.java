@@ -7,6 +7,9 @@ import edu.mst.grbcp5.hw02.search.IteratedPrisonerDilemma.*;
 import edu.mst.grbcp5.hw02.tree.Tree;
 
 import java.io.PrintWriter;
+import java.util.Arrays;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Random;
 
 public class EvolutionarySearchDelegate {
@@ -17,7 +20,7 @@ public class EvolutionarySearchDelegate {
 
   private Parameters parameters;
   private boolean converged;
-  private int numIndividuals;
+  private int numFitnessEvaluations;
   private int totalFitnessEvals;
   private Prisoner titForTat;
   private IterationRecord[] environment;
@@ -26,6 +29,9 @@ public class EvolutionarySearchDelegate {
   private int currentGeneration;
   private int convergenceCriterion;
   private double fitnessSum;
+
+  private boolean coevolution;
+  private double fitnessSamplingPct;
 
   public EvolutionarySearchDelegate(
     Parameters parameters
@@ -39,7 +45,7 @@ public class EvolutionarySearchDelegate {
     this.parameters = parameters;
 
     this.converged = false;
-    this.numIndividuals = 0;
+    this.numFitnessEvaluations = 0;
     this.totalFitnessEvals = parameters.getInteger( Param.FITNESS_EVALS );
     currentBest = null;
     bestGeneration = 0;
@@ -66,13 +72,38 @@ public class EvolutionarySearchDelegate {
         ( rnd.nextInt( 2 ) == 1 )
       );
     }
+
+    this.coevolution = parameters.getBoolean(
+      Param.COEVOLUTION,
+      false
+    );
+    this.fitnessSamplingPct = parameters.getDouble(
+      Param.FITNESS_SAMPLING_PCT,
+      ( 1.0 / parameters.getInteger( Param.POPULATION_SIZE ) )
+    );
+
   }
 
   public Prisoner[] getInitialPopulation() {
-    return Initialization.rampedHalfAndHalf(
+
+    Prisoner[] result = Initialization.rampedHalfAndHalf(
       parameters.getInteger( Param.POPULATION_SIZE ),
       this
     );
+
+    if ( this.coevolution ) {
+
+      this.coevolution = false;
+
+      for ( Prisoner p : result ) {
+        this.handleNewPrisoner( p );
+      }
+
+      this.coevolution = true;
+
+    }
+
+    return result;
   }
 
   public double fitness(
@@ -103,13 +134,112 @@ public class EvolutionarySearchDelegate {
     return pctFree - parsimonyCoeffient;
   }
 
+  public double coevolutionaryFiteness(
+    Prisoner p,
+    Prisoner[] population,
+    Prisoner[] children
+  ) {
+
+    /* Local variables */
+    int numOpponents;
+    Prisoner[] opponents;
+    double cumulativeFitness;
+    int k;
+    int iterations;
+    IterationRecord[] env;
+
+    /* Initialize */
+    numOpponents =
+      ( int ) ( ( parameters.getInteger( Param.POPULATION_SIZE )
+        + parameters.getInteger( Param.NUM_CHILDREN ) - 1 )
+        * parameters.getDouble( Param.FITNESS_SAMPLING_PCT ) );
+    opponents = getRandomSampling(
+      population,
+      children,
+      numOpponents,
+      p
+    );
+    cumulativeFitness = 0.0;
+    env = Arrays.copyOf( this.environment, this.environment.length );
+    k = parameters.getInteger( Param.MEMORY_DEPTH );
+    iterations = parameters.getInteger( Param.ITERATIONS );
+
+    /* Calculate fitness */
+    for ( Prisoner opponent : opponents ) {
+
+      /* Don't count first 2k iterations*/
+      IteratedPrisonerDilemmaSimulator.simulate(
+        p,
+        opponent,
+        2 * k,
+        env
+      );
+
+      /* Count last l-2k iterations */
+      cumulativeFitness += IteratedPrisonerDilemmaSimulator.simulate(
+        p,
+        opponent,
+        iterations - ( 2 * k ),
+        env
+      );
+
+      /* Increment fitness counter */
+      numFitnessEvaluations++;
+
+    }
+
+    /* Return average of random sampling */
+    return cumulativeFitness / numOpponents;
+  }
+
+  private Prisoner[] getRandomSampling(
+    Prisoner[] population,
+    Prisoner[] children,
+    int samplingSize,
+    Prisoner exclude
+  ) {
+
+    /* Local variables */
+    Prisoner result[];
+    List< Prisoner > surplus;
+    Random rnd;
+    int rndIdx;
+    Prisoner prisonerToAdd;
+
+    /* Initialize */
+    rnd = GRandom.getInstance();
+    result = new Prisoner[ samplingSize ];
+    surplus = new LinkedList<>(
+      Arrays.asList(
+        EvolutionarySearch.combine( population, children )
+      )
+    );
+
+    for ( int i = 0; i < samplingSize; i++ ) {
+
+      /* Select random prisoner from surplus */
+      rndIdx = rnd.nextInt( surplus.size() );
+      prisonerToAdd = surplus.remove( rndIdx );
+
+      if ( prisonerToAdd == exclude ) {
+        i--; // Add another prisoner if this prisoner was randomly chosen
+      } else {
+        result[ i ] = prisonerToAdd;
+      }
+
+    }
+
+    return result;
+  }
+
   public boolean shouldContinue() {
 
     if ( converged ) {
-      System.out.println( "\nconverged: " + this.numIndividuals );
+      System.out.println( "\nconverged: " + this.numFitnessEvaluations );
     }
 
-    return !converged && ( this.numIndividuals < this.totalFitnessEvals );
+    return !converged &&
+      ( this.numFitnessEvaluations < this.totalFitnessEvals );
   }
 
   public void signalEndOfGeneration() {
@@ -122,13 +252,55 @@ public class EvolutionarySearchDelegate {
       converged = true;
     }
 
-    double averageFitness = fitnessSum / numIndividuals;
+    double averageFitness = fitnessSum / numFitnessEvaluations;
     logWriter = ( PrintWriter ) parameters.get( Param.LOG_WIRTER );
     logWriter.println(
-      this.numIndividuals + "\t" +
+      this.numFitnessEvaluations + "\t" +
         averageFitness + "\t" +
         currentBest.getFitness()
     );
+
+  }
+
+  public void signalAllChildrenCreated(
+    Prisoner[] population,
+    Prisoner[] children
+  ) {
+
+    /* Don't do anything if not doing a coevolutionary search */
+    if ( !this.coevolution ) {
+      return;
+    }
+
+    /* Local variables */
+    int printDistance;
+    int curRun;
+
+    for ( int i = 0; i < children.length; i++ ) {
+
+      /* Set fitness (Fitness eval counter updated in function)*/
+      children[ i ].setFitness(
+        this.coevolutionaryFiteness(
+          children[ i ],
+          population,
+          children
+        )
+      );
+
+      /* Update best */
+      if ( currentBest == null || children[ i ].compareTo( currentBest ) > 0 ) {
+        currentBest = children[ i ];
+        bestGeneration = currentGeneration;
+      }
+
+      /* Keep console responsive */
+      curRun = parameters.getInteger( Param.CURRENT_RUN );
+      System.out.print(
+        "\rRun: " + curRun + ": " + numFitnessEvaluations
+          + "/" + totalFitnessEvals
+      );
+      System.out.flush();
+    }
 
   }
 
@@ -137,26 +309,32 @@ public class EvolutionarySearchDelegate {
     int curRun;
     int printDistance;
 
-    this.numIndividuals++;
+    /* Not doing coevolutionary search */
+    if ( !this.coevolution ) {
 
-    p.setFitness( this.fitness( p, titForTat, environment ) );
-    this.fitnessSum += p.getFitness();
+      /* Set fitness */
+      p.setFitness( this.fitness( p, titForTat, environment ) );
+      this.numFitnessEvaluations++;
+      this.fitnessSum += p.getFitness();
 
-    if ( currentBest == null || p.compareTo( currentBest ) > 0 ) {
-      currentBest = p;
-      bestGeneration = currentGeneration;
-    }
+      /* Update best */
+      if ( currentBest == null || p.compareTo( currentBest ) > 0 ) {
+        currentBest = p;
+        bestGeneration = currentGeneration;
+      }
 
-    printDistance = parameters.getInteger( Param.NUM_CHILDREN );
-    if ( numIndividuals % printDistance == 0 ) {
-      curRun = parameters.getInteger( Param.CURRENT_RUN );
-      currentLoadingChar = ( currentLoadingChar + 1 ) % loadingChars.length;
-      System.out.print(
-        "\rRun " + curRun + ": " + loadingChars[ currentLoadingChar ]
-      );
-      System.out.flush();
-    }
+      /* Keep console responsive */
+      printDistance = parameters.getInteger( Param.NUM_CHILDREN );
+      if ( numFitnessEvaluations % printDistance == 0 ) {
+        curRun = parameters.getInteger( Param.CURRENT_RUN );
+        currentLoadingChar = ( currentLoadingChar + 1 ) % loadingChars.length;
+        System.out.print(
+          "\rRun " + curRun + ": " + loadingChars[ currentLoadingChar ]
+        );
+        System.out.flush();
+      }
 
+    } // if not coevolutionary search
 
     return shouldContinue();
   }

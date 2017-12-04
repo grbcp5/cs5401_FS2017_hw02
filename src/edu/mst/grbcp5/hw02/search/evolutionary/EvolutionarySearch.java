@@ -32,6 +32,7 @@ public class EvolutionarySearch {
     while ( delegate.shouldContinue() ) {
 
       children = createChildren( population );
+      delegate.signalAllChildrenCreated( population, children );
       population = selectSurvivors( combine( population, children ) );
       delegate.signalEndOfGeneration();
 
@@ -148,7 +149,7 @@ public class EvolutionarySearch {
     return child;
   }
 
-  private Prisoner[] combine( Prisoner[] pop1, Prisoner[] pop2 ) {
+  public static Prisoner[] combine( Prisoner[] pop1, Prisoner[] pop2 ) {
     Prisoner[] result = new Prisoner[ pop1.length + pop2.length ];
 
     System.arraycopy( pop1, 0, result, 0, pop1.length );
