@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<config>
+
+    <!--
+      Required for execution as of 2a
+    -->
+
+    <!-- Game configuration -->
+    <searchType dataType="String">Random</searchType>
+    <iterations dataType="Integer">10000</iterations>
+    <memoryDepth dataType="Integer">5</memoryDepth>
+    <maxTreeDepth dataType="Integer">5</maxTreeDepth>
+    <shouldSeedRandom dataType="Boolean">false</shouldSeedRandom>
+    <!-- <randomSeed dataType="Long">10021995</randomSeed> -->
+
+    <!-- Experiment configuration -->
+    <numRuns dataType="Integer">30</numRuns>
+    <numIndividuals dataType="Integer">10000</numIndividuals>
+    <logFilePath dataType="String">./log/2a/valid1log.txt</logFilePath>
+    <solFilePath dataType="String">./sol/2a/valid1sol.txt</solFilePath>
+
+    <!--
+      2a Algorithm parameters
+    -->
+    <depthProportionalInit dataType="Boolean">true</depthProportionalInit>
+
+
+</config>

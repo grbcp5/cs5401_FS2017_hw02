@@ -1,0 +1,83 @@
+Result Log:
+
+Parameters:
+tournamentSize: 3
+solFilePath: ./sol/2a/valid1sol.txt
+convergenceCriterion: 15
+fitnessEvals: 10000
+memoryDepth: 5
+maxTreeDepth: 10
+numRuns: 30
+numChildren: 100
+mutationFrequency: 0.5
+searchType: Evolutionary
+shouldSeedRandom: false
+iterations: 30
+parentSelection: fitnessProportionalSelection
+randomSeed: 1511142879766
+depthProportionalInit: true
+logFilePath: ./log/2a/valid1log.txt
+survivalSelection: kTournamentSelection
+populationSize: 10000
+parsimonyCoeficient: 0.05
+
+
+Run 1:
+
+Run 2:
+
+Run 3:
+
+Run 4:
+
+Run 5:
+
+Run 6:
+
+Run 7:
+
+Run 8:
+
+Run 9:
+
+Run 10:
+
+Run 11:
+
+Run 12:
+
+Run 13:
+
+Run 14:
+
+Run 15:
+
+Run 16:
+
+Run 17:
+
+Run 18:
+
+Run 19:
+
+Run 20:
+
+Run 21:
+
+Run 22:
+
+Run 23:
+
+Run 24:
+
+Run 25:
+
+Run 26:
+
+Run 27:
+
+Run 28:
+
+Run 29:
+
+Run 30:
